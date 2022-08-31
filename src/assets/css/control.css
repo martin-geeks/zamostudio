@@ -1,0 +1,11 @@
+@media only screen and (max-width: 600px){
+  .custom-sx{
+    display:;
+    margin:'10% 0'
+  }
+}
+@media only screen and (min-width: 600px){
+  .custom-sx{
+    display:none;
+  }
+}

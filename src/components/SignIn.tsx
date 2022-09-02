@@ -1,13 +1,24 @@
 import * as React from 'react';
-
-
+import axios from 'axios';
+//axios.defaults.baseURL = 'http://192.168.43.214:3333';
 export default function SignIn(){
-  
+  const signIn = () => {
+    const form = document.getElementById('loginForm');
+    
+    axios.post('/login',{username:'martintembo1',password:'543027'})
+    .then((response:any)=>{
+      alert(JSON.stringify(response.data));
+    })
+    .catch((err:Error)=>{
+      alert(err.message);
+    });
+    
+  }
   
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white dark:bg-black">
     <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-        <form className="w-full max-w-md">
+        <form id='loginForm' className="w-full max-w-md">
             <h1 className="text-3xl font-semibold text-gray-800 capitalize dark:text-white">sign In</h1>
 
             <div className="relative flex items-center mt-8">
@@ -31,7 +42,7 @@ export default function SignIn(){
             </div>
 
             <div className="mt-6">
-                <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                <button onClick={signIn}  type='button' className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                     Sign in
                 </button>
 

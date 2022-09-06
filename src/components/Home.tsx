@@ -5,6 +5,8 @@ import {Swiper,SwiperSlide} from 'swiper/react';
 import chokolo from '../assets/images/chokolo.jpg';
 import thefamilyhouse from '../assets/images/house.jpeg';
 import witch from '../assets/images/witch.jpg';
+import {useCustomDispatch, useCustomSelector} from '../states/hook';
+import {addTopMovies} from '../states/movies';
 import axios from 'axios';
 import '../assets/css/home.css';
 import {Grid as MyGrid,Keyboard,Lazy,Pagination,Navigation,EffectCreative} from 'swiper';
@@ -98,6 +100,8 @@ const movies: Movie[] = [movie4,movie,movie2,movie3]
 
 
 export default function Home() {
+  const dispatch = useCustomDispatch();
+  const topMovies = useCustomSelector((state) => state.movies.topMovies);
   const [movies_remote,setMovies] = React.useState<any>(movies);
     const backgroundHandler = (state:boolean,src:string|undefined,background:string) => {
     if(state) {
@@ -108,9 +112,10 @@ export default function Home() {
     }
     if(!state) return `relative bg-gradient-to-br h-[30rem] ${background}`
   }
-  
-  
-    axios.get('https://api.themoviedb.org/3/discover/movie?sort_by=popularity&api_key=e008a3fcbf074898acac69fed235825a')
+    const [errorMessage,setErrorMessage] = React.useState<string>('Something went wrong,try again.');
+    const [errorMessageState,setErrorMessageState] = React.useState<string>('hidden');
+    React.useEffect(()=>{
+        axios.get('https://api.themoviedb.org/3/discover/movie?api_key=e008a3fcbf074898acac69fed235825a')
     .then((movies_arr:any)=>{
       //alert(JSON.stringify(movies_arr))
       if(movies_arr.data.results.length > 0){
@@ -118,7 +123,7 @@ export default function Home() {
         results.forEach((movie:any,index:number)=>{
           if(movie.backdrop_path != null){
             movie.image = true;
-            movie.imageSource = 'https://image.tmdb.org/t/p'+movie.poster_path;
+            movie.imageSource = 'https://image.tmdb.org/t/p/original'+movie.poster_path;
           }
           if(movie.adult === true){
             movie.parentalGuide = 18;
@@ -131,25 +136,37 @@ export default function Home() {
           movie.availability = 'Watch Trailer';
           movie.purchase = {amount:500}
         })
-        //alert(JSON.stringify(results[0]));
+        
         let selected_arr: any[] = []
         for(let i=1; i<= 5; i++){
           selected_arr.push(results[i])
         }
+        dispatch(addTopMovies(selected_arr));
         setMovies(selected_arr);
+        //alert(Object.keys(selected_arr[0]))
       }
       //setMovies(movies_arr);
+      setErrorMessageState('hidden');
     })
     .catch((err:Error)=>{
       //alert(err.message);
+      setErrorMessageState('');
     })
+    },[]);
+  
   
   return (
     <React.Fragment>
       <div>
+            <div id='' className={`alert bg-red-400 alert-error shadow-lg sm:w-[100%] text-white ${errorMessageState}`}>
+       <div>
+    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <span>{errorMessage}</span>
+  </div>
+</div>
         <Swiper
-        modules={[Lazy,Navigation,Pagination,EffectCreative]}
-        lazy={true}
+        modules={[MyGrid,Navigation,Pagination,EffectCreative]}
+        lazy={false}
         
         grabCursor={true}
           keyboard={{
@@ -168,13 +185,14 @@ export default function Home() {
         
           <SwiperSlide
            >
-          <div className={ "h-[30rem] drop-shadow-sm bg-cover bg-center bg-no-repeat bg-gradient-to-t from-sky-500 to-sky-900 dark:from-black dark:to-slate-900"}>
+          <div className={"h-[30rem] drop-shadow-sm bg-contain bg-center bg-no-repeat bg-gradient-to-t from-sky-500 to-sky-900 dark:from-black dark:to-slate-900"} style={{background:`url(${mov.imageSource})`, backgroundSize:'contain'}} >
           <div>
           <div className='py-[1rem]'>
           </div>
           <div className='ml-5 py-5 text-left text-4xl font-bold text-white' >
           {mov.title}
           </div>
+          <img className='w-full h-[0px]'  alt='Film Cover' src={mov.imageSource}/>
           <div className='ml-5 my- flex justify-start' >
             <button className='border-x-2 mx-1 border-black-100 p-1 text-white border-left-none font-bold' >
              {mov.category}
@@ -187,7 +205,7 @@ export default function Home() {
             PG {mov.parentalGuide}
             </button>
           </div>
-          <p className='text-left p-5 text-white font-light' >
+          <p className='text-left p-5 text-white font-light ' >
             {mov.description}
           </p>
           <div className='my-1 flex' >
@@ -195,7 +213,7 @@ export default function Home() {
           {mov.availability}
           </div>
           { mov.available? 
-          <Link  to={{pathname:'/player',hash:uuidv4()}} ><button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times' >
+          <Link  to={{pathname:'/player',hash:uuidv4(),search:'?movieId='+mov.id+'&cover='+mov.imageSource+'&title='+mov.title+'&movie_description='+mov.description}} ><button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times' >
           
          <i className='fal fa-play' />
           </button></Link>:

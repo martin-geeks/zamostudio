@@ -74,26 +74,25 @@ export default function Player(){
   const [errorMessage,setErrorMessage] = React.useState<string>('Something went wrong,try again.');
   const [errorMessageState,setErrorMessageState] = React.useState<string>('hidden');
   const [loading,setLoading] = React.useState<boolean>(true);
+  const [muted,setMute] = React.useState<boolean>(true);
+  const [seek,setSeek] = React.useState<string>('w-[30%]');
+  var count = 0;
+  setTimeout(function(){
+    let s = count + 20;
+    setSeek(`w-[80%]`);
+  },300);
   const urlParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlParams.entries());
   const reactPlayer = React.useRef<any>(null);
-
+  
   const playVideo = () => {
-    
-    //let url = new Proxy(new URLSearchParams(window.location.search),{get:(params,prop) => params.get(prop) });
-    //the above failed
     
     if(params.movieId !== null){
       axios.get<MovieResponse>('https://api.themoviedb.org/3/movie/'+params.movieId+'/videos?api_key=e008a3fcbf074898acac69fed235825a')
       .then(data => {
-        //alert(JSON.stringify(data.data));
         if(data.data.results.length > 0) {
         setVideo(data.data.results[0]);
-       
         setLoading(false);
-        //const videoEl = document.getElementById('videoElement');
-        //@ts-ignore
-        //videoEl.play();
         } else {
           setMessageText('The video was not found');
           setMessage(true);
@@ -106,31 +105,24 @@ export default function Player(){
     setErrorMessageState('hidden')
   }
   const showPreview = () => {
-    //alert(Object.values(reactPlayer.current));
     reactPlayer.current.showPreview();
-    //alert(JSON.stringify(params))
-    //fetchRelatedMovies();
   }
   React.useEffect(()=>{
     
     if(params.movieId !== null){
       axios.get<MovieResponse>('https://api.themoviedb.org/3/movie/'+params.movieId+'/videos?api_key=e008a3fcbf074898acac69fed235825a')
       .then(data => {
-        //alert(JSON.stringify(data.data));
         if(data.data.results.length > 0) {
         setVideo(data.data.results[0]);
-       
         setLoading(false);
-        //const videoEl = document.getElementById('videoElement');
-        //@ts-ignore
-        //videoEl.play();
         } else {
           setMessageText('The video was not found');
           setMessage(true);
+          setErrorMessageState('hidden');
         }
       })
       .catch(err => {
-        //alert(err.message);
+        setErrorMessageState('');
       })
     }
     
@@ -250,6 +242,7 @@ export default function Player(){
          ref={reactPlayer} 
          url={'https://youtube.com/watch?v='+currentVideo.key} 
          controls={false} 
+         muted={muted}
          pip={true} 
          playing={false} 
          width={'100%'} 
@@ -260,18 +253,19 @@ export default function Player(){
     let myTime = reactPlayer.current.getCurrentTime();
     //alert(myTime);
     videoProgress(myTime);
+    
   },100);
          }}
          onProgress={()=>{
           
          }}
          onDuration={videoDuration}
-         playIcon={ <button onClick={playVideo} className='z-50 animate-ping text-5xl my-20 mx-[45%] md:mx-[15%] '>
-      <i className='fal fa-play-circle' />
+         playIcon={ <button onClick={playVideo} className=' animate- text-5xl my-20 mx-[45%] md:mx-[15%] text-green-400'>
+      <i className='fad fa-play-circle' />
       </button>}  />
       </div>
       <div id='controls' className='sm:shadow-2xl md:w-[600px] md:mx-auto ' >
-      <div id='seek' className='py-[0.4px] bg-green-300 w-[20%]'>
+      <div id='seek' className={`py-[0.4px] bg-green-300 transition-all linear duration-${1500} ${seek}`}>
         
       </div>
       <div id='sub-controls' className='flex justify-around'>

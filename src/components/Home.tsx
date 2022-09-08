@@ -138,7 +138,7 @@ export default function Home() {
         })
         
         let selected_arr: any[] = []
-        for(let i=1; i<= 5; i++){
+        for(let i=1; i<= 10; i++){
           selected_arr.push(results[i])
         }
         dispatch(addTopMovies(selected_arr));
@@ -165,16 +165,12 @@ export default function Home() {
   </div>
 </div>
         <Swiper
-        modules={[MyGrid,Navigation,Pagination,EffectCreative]}
-        lazy={false}
+        modules={[Navigation,Pagination,EffectCreative,Lazy]}
+        lazy={true}
         
         grabCursor={true}
           keyboard={{
             enabled:true,
-          }}
-          grid={{
-            rows:2,
-           
           }}
         onReachEnd={()=> {} }
         navigation={true} 
@@ -185,14 +181,15 @@ export default function Home() {
         
           <SwiperSlide
            >
-          <div className={"h-[30rem] drop-shadow-sm bg-contain bg-center bg-no-repeat bg-gradient-to-t from-sky-500 to-sky-900 dark:from-black dark:to-slate-900"} style={{background:`url(${mov.imageSource})`, backgroundSize:'contain'}} >
+          <div className={"h-[30rem] drop-shadow-sm  bg-center bg-no-repeat bg-gradient-to-t from-sky-500 to-sky-900 dark:from-black dark:to-slate-900"} style={{background:`url(${mov.imageSource})`, backgroundSize:'cover'}} >
           <div>
-          <div className='py-[1rem]'>
+          <div className='py-[1rem] my-[0%] '></div>
+          <div className='py-[1rem] my-10'>
           </div>
-          <div className='ml-5 py-5 text-left text-4xl font-bold text-white' >
+          <div className=' ml-5 py-5 text-left text-4xl font-bold text-white' >
           {mov.title}
           </div>
-          <img className='w-full h-[0px]'  alt='Film Cover' src={mov.imageSource}/>
+          
           <div className='ml-5 my- flex justify-start' >
             <button className='border-x-2 mx-1 border-black-100 p-1 text-white border-left-none font-bold' >
              {mov.category}
@@ -205,7 +202,7 @@ export default function Home() {
             PG {mov.parentalGuide}
             </button>
           </div>
-          <p className='text-left p-5 text-white font-light ' >
+          <p className='text-left p-5 text-white font-light text-ellipsis overflow-hidden h-[150px] hover:truncate' >
             {mov.description}
           </p>
           <div className='my-1 flex' >

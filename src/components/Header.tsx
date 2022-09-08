@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {toggleTheme as theme} from '../states/theme';
 import {Link} from 'react-router-dom';
+import {v4 as uuidv4} from 'uuid';
 import {useCustomSelector,useCustomDispatch} from '../states/hook';
 
 import '../assets/css/header.css';
@@ -20,6 +21,7 @@ export default function Header(){
   const toggleTheme = () => {
     dispatch(theme());
   }
+  const [isLogin,setLogin] = React.useState(true);
   const toggleNav = () => {
     //@ts-ignore
     const nav: HTMLElement= document.getElementById('navBar');
@@ -28,7 +30,7 @@ export default function Header(){
   }
   return (
     <React.Fragment>
-      <header className='t-0 w-[100%] ' >
+      <header className='t-0 w-[100%] scroll-smooth' >
        <div className='relative z-40 w-[100%] header border-y- border-black-600 dark:border-grey-200 dark:bg-black py-2 flex justify-between' >
        <div className='ml-5 text-left md:text-left text-2xl py-2 dark:text-white font-bold' >
         <i className='fas fa-popcorn text-green-500' />
@@ -48,7 +50,7 @@ export default function Header(){
        <div  >
        
        </div>
-       <div id='navBar' className='fixed z-50 t-0 bg-white text-black transition-all shadow-2xl ease-in h-[100%] w-[70%] dark:bg-black dark:text-white ml-[-100%] top-0 md:fixed md:ml-[-100%] md:w-60  '>
+       <div id='navBar' className='fixed z-50 t-0 bg-white text-black transition-all shadow-2xl ease-in h-[100%] w-[70%] dark:bg-black dark:text-white ml-[-100%] top-0 md:fixed md:ml-[-100%] md:w-60'>
        <div className='flex py-5  bg-white text-slate-500 dark:bg-black dark:text-slate-500 justify-around' >
        <span className='py-1'>
        You are in {currentTheme=== 'dark'? 'light':'dark'} mode
@@ -72,8 +74,16 @@ export default function Header(){
           </div>
           <div className='my-2'>
             <ol className='text-left' >
-               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-heart' /><span className='mx-3'>Wishlist</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-arrow-up' /><span className='mx-3'>Top movies</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text-green-400 text+left'><i className='fad fa-thumbs-up' /><span className='mx-3'>Recommended movies</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-bookmark' /><span className='mx-3'>Wishlist</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-heart' /><span className='mx-3'>Favorite</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-shopping-cart' /><span className='mx-3'>Cart</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-store' /><span className='mx-3'>Movies Store</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-box-full' /><span className='mx-3'>Zamo Box</span></li></Link>
+               {isLogin? <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-user' /><span className='mx-3'>My Account</span></li></Link>:
+               <Link  to={{pathname:'/sign-in',hash:uuidv4()}} ><li className='my-2 p-2 ring ring-green-400 text-green-400 mx-2 hover:bg-green-100 dark:hover:bg-green-100 rounded ease-in transition-all text+left'><i className='fal fa-sign-in' /><span className='mx-3'>Login or Create Account</span></li></Link>
+               }
             </ol>
           </div>
         <div className="collapse collapse-arrow text-left mt-2">
@@ -82,7 +92,7 @@ export default function Header(){
     Movie Category
   </div>
   <div className="collapse-content"> 
-       <ol className='text-black dark:text-white' >
+       <ol className='text-black dark:text-white list-disc' >
               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all'>Action</li></Link>
               <Link to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all ease-in ' >Adventure</li></Link>
               <Link to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all ease-in '>Comedy</li></Link>

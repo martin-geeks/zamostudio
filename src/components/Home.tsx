@@ -102,7 +102,7 @@ const movies: Movie[] = [movie4,movie,movie2,movie3]
 export default function Home() {
   const dispatch = useCustomDispatch();
   const topMovies = useCustomSelector((state) => state.movies.topMovies);
-  const [movies_remote,setMovies] = React.useState<any>(movies);
+  const [movies_remote,setMovies] = React.useState<any>([]);
     const backgroundHandler = (state:boolean,src:string|undefined,background:string) => {
     if(state) {
       
@@ -226,7 +226,7 @@ export default function Home() {
         ))}
         </Swiper>
         
-        <div className='h-96 dark:text-white dark:bg-black md:w-[500px] md:h-[200px]' >
+        <div className='h-96 dark:text-white dark:bg-black md:w-[w-full]' >
           <div className='text-left py-2 md:text-center ' >
             <span className='font-bold text-2xl' >
             Featured
@@ -235,9 +235,16 @@ export default function Home() {
             These won't disappoint
             </p>
             
-            <div className='grid grid-flow-col grid-cols-2 grid-rows-2 md:w-[500px]' >
-            
-            
+            <div className='md:grid md:grid-flow-col md:grid-cols-5 grid-rows-2 md:w-[500px] carousel w-full mx-auto' >
+            {movies_remote.map((item:any,index:number)=> (
+              <div id={`item${index}`} className='carousel-item relative bg-gray-200 h-[500px] mx-5 w-full bg-contain md:h-[150px]' style={{background:`url(${item.imageSource})`,backgroundSize:'cover'}}>
+              {item.title}
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 md:hidden">
+                  <a href={`#item${index -1}`} className="btn btn-circle text-white">❮</a> 
+                  <a href={`#item${index + 1}`} className="btn btn-circle text-white">❯</a>
+                </div>
+              </div>
+              ))}
             </div>
            
           </div>

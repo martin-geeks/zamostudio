@@ -200,7 +200,18 @@ export default function Player(){
     }
      
   }
-
+  const share = (title:string,text: string,url:string) => {
+    
+    if(navigator.share){
+      navigator.share({title:title,text:text,url:url})
+      .then(()=>{
+        console.log('Shared')
+      })
+      .catch(()=>{
+        console.error('An error occurred while trying to share the content')
+      });
+    }
+  }
   return (
     <React.Fragment>
     <div className='bg-white dark:bg-black  dark:text-white' >
@@ -306,7 +317,7 @@ export default function Player(){
       </button>
       </div>
        <div className='my-5 ml-5' >
-       <button>
+       <button onClick={() => share(movie.title,params.movie_description,window.location.href)}>
       <i className='fal fa-share-alt' />
       </button>
       </div>

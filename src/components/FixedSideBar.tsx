@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {ThemeMoonIcon,ThemeSunIcon}  from '../components/Icons';
+import {themeHandler} from '../states/theme';
 import { useCustomSelector, useCustomDispatch } from '../states/hook';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
@@ -10,7 +11,7 @@ export default function FixedSideBar() {
   const dispatch = useCustomDispatch();
   const theme = useCustomSelector((state)=> state.theme.value);
   const toggleTheme = () => {
-    dispatch(theme());
+    dispatch(themeHandler());
   }
   const [isLogin,setLogin] = React.useState(false);
   return (

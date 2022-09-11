@@ -1,5 +1,7 @@
 .header {
   border-top:none;
+  border-left:none;
+  border-right:none;
 }
 #navBar {
   overflow-y: scroll;
@@ -10,4 +12,8 @@
 }
 .searchBtn {
   border-radius:0px 5px 5px 0px;
+}
+.fixedSideBar {
+  border-top:none;
+  border-left:none;
 }

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {ThemeMoonIcon,ThemeSunIcon}  from '../components/Icons';
-import {themeHandler} from '../states/theme';
+import {toggleTheme as themeHandler} from '../states/theme';
 import { useCustomSelector, useCustomDispatch } from '../states/hook';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
+import '../assets/css/header.css';
 
 
 
@@ -15,7 +16,7 @@ export default function FixedSideBar() {
   }
   const [isLogin,setLogin] = React.useState(false);
   return (
-     <div className=" bg-white dark:bg-black w-60 md:h-full  hidden md:block" >
+     <div className=" bg-white dark:bg-black w-60 border-[1px] border-gray-300 md:h-full  hidden md:block fixedSideBar" >
         <div className='flex py-5  bg-white text-slate-500 dark:bg-black dark:text-white justify-around' >
        <span className='py-1'>
        You are in {theme=== 'dark'? 'light':'dark'} mode

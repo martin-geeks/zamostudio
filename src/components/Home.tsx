@@ -1,20 +1,19 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
-import {Swiper,SwiperSlide} from 'swiper/react';
 import chokolo from '../assets/images/chokolo.jpg';
+import anime from '../assets/images/anime.jpeg';
+import action from '../assets/images/action.jpeg';
+import fantasy from '../assets/images/fantasy.jpeg';
+import comedy from '../assets/images/comedy.jpeg';
 import thefamilyhouse from '../assets/images/house.jpeg';
 import witch from '../assets/images/witch.jpg';
 import {useCustomDispatch, useCustomSelector} from '../states/hook';
 import {addTopMovies} from '../states/movies';
 import axios from 'axios';
 import '../assets/css/home.css';
-import {Grid as MyGrid,Keyboard,Lazy,Pagination,Navigation,EffectCreative} from 'swiper';
-import 'swiper/css';
-import 'swiper/css/effect-creative';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+
+import '../assets/css/header.css';
 
 type ParentalGuide = number | string;
 type Availability = 'Coming Soon'| 'Watch Now'|'Watch Trailer';
@@ -98,11 +97,32 @@ const movie4: Movie = {
 }
 const movies: Movie[] = [movie4,movie,movie2,movie3]
 
+/*const PlayerButton = () => (
+      <div>
+          <Link  to={{pathname:'/player',hash:uuidv4(),search:'?movieId='+mov.id+'&cover='+mov.imageSource+'&title='+mov.title+'&movie_description='+mov.description}} ><button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times' >
+          
+         <i className='fal fa-play' />
+          </button></Link>:
+         <button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times'>
+         <i className='fad fa-eye' />
+          </button>
+          </div>
+          ) */
 
+const LoaderComponent = () => (
+  <div className='carousel' >
+    {[1,2,3,4].map((i:number,index:number)=>(
+        <div className='carousel-item w-[150px] h-[200px] bg-gradient-to-t from-gray-300 to-gray-100 dark:from-green-500 dark:to-green-100  mx-2 rounded animate-pulse' >
+          
+        </div>
+    ))}
+  </div>
+  )
 export default function Home() {
   const dispatch = useCustomDispatch();
   const topMovies = useCustomSelector((state) => state.movies.topMovies);
   const [movies_remote,setMovies] = React.useState<any>([]);
+  const [isLoading,setLoading] = React.useState(true);
     const backgroundHandler = (state:boolean,src:string|undefined,background:string) => {
     if(state) {
       
@@ -138,12 +158,14 @@ export default function Home() {
         })
         
         let selected_arr: any[] = []
-        for(let i=1; i<= 10; i++){
+        for(let i=1; i<= 5; i++){
           selected_arr.push(results[i])
         }
         dispatch(addTopMovies(selected_arr));
         setMovies(selected_arr);
         //alert(Object.keys(selected_arr[0]))
+        setLoading(false);
+        
       }
       //setMovies(movies_arr);
       setErrorMessageState('hidden');
@@ -151,104 +173,93 @@ export default function Home() {
     .catch((err:Error)=>{
       //alert(err.message);
       setErrorMessageState('');
+      setLoading(true);
     })
     },[]);
   
   
   return (
     <React.Fragment>
-      <div>
+      <div className='bg-white text-black dark:bg-black dark:text-white' >
             <div id='' className={`alert bg-red-400 alert-error shadow-lg sm:w-[100%] text-white ${errorMessageState}`}>
        <div>
     <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
     <span>{errorMessage}</span>
   </div>
 </div>
-        <Swiper
-        modules={[Navigation,Pagination,EffectCreative,Lazy]}
-        lazy={true}
-        
-        grabCursor={true}
-          keyboard={{
-            enabled:true,
-          }}
-        onReachEnd={()=> {} }
-        navigation={true} 
-        effect={'fade'}
-        pagination={{ clickable: true }}
-        >
-        {movies_remote.map((mov:any,index:number) => (
-        
-          <SwiperSlide
-           >
-          <div className={"h-[30rem] drop-shadow-sm  bg-center bg-no-repeat bg-gradient-to-t from-sky-500 to-sky-900 dark:from-black dark:to-slate-900"} style={{background:`url(${mov.imageSource})`, backgroundSize:'cover'}} >
-          <div>
-          <div className='py-[1rem] my-[0%] '></div>
-          <div className='py-[1rem] my-10'>
-          </div>
-          <div className=' ml-5 py-5 text-left text-4xl font-bold text-white' >
-          {mov.title}
-          </div>
-          
-          <div className='ml-5 my- flex justify-start' >
-            <button className='border-x-2 mx-1 border-black-100 p-1 text-white border-left-none font-bold' >
-             {mov.category}
-            </button>
-            
-            <button  className='border-x-2 mx-1 p-1 border-left-none text-white font-bold' >
-            {mov.year}
-            </button>
-            <button className='border-2 mx-1 p-1 text-white font-bold' >
-            PG {mov.parentalGuide}
-            </button>
-          </div>
-          <p className='text-left p-5 text-white font-light text-ellipsis overflow-hidden h-[150px] hover:truncate' >
-            {mov.description}
-          </p>
-          <div className='my-1 flex' >
-          <div className=' p-2  my-2 h-10  text-white font-times'>
-          {mov.availability}
-          </div>
-          { mov.available? 
-          <Link  to={{pathname:'/player',hash:uuidv4(),search:'?movieId='+mov.id+'&cover='+mov.imageSource+'&title='+mov.title+'&movie_description='+mov.description}} ><button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times' >
-          
-         <i className='fal fa-play' />
-          </button></Link>:
-         <button className='border-2 border-white  rounded-full my-2 h-10 w-10 text-white font-times'>
-         <i className='fad fa-eye' />
-          </button>
-          }
-          </div>
-          </div>
-          
-          </div>
-          </SwiperSlide>
-        ))}
-        </Swiper>
-        
+
         <div className='h-96 dark:text-white dark:bg-black md:w-[w-full]' >
           <div className='text-left py-2 md:text-center ' >
-            <span className='font-bold text-2xl' >
-            Featured
+            <span className='font-bold text-2xl ml-4' >
+            Top Movies
             </span>
-            <p className='text-center font-light' >
-            These won't disappoint
+            <p className='text-center font-light my-3' >
+            Discover the most rated and viewed movies here
             </p>
             
-            <div className='md:grid md:grid-flow-col md:grid-cols-5 grid-rows-2 md:w-[500px] carousel w-full mx-auto' >
+            {isLoading?<LoaderComponent /> :<div className='md:grid-flow-col md:grid-cols-2 md:grid-rows-2 md:w-[90%] carousel w-full mx-auto' >
             {movies_remote.map((item:any,index:number)=> (
-              <div id={`item${index}`} className='carousel-item relative bg-gray-200 h-[500px] mx-5 w-full bg-contain md:h-[150px]' style={{background:`url(${item.imageSource})`,backgroundSize:'cover'}}>
-              {item.title}
-                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 md:hidden">
+              <div id={`item${index}`} className='carousel-item relative bg-gray-200 h-[200px] mx-2 w-[150px] rounded-[10px] md:rounded-[0px] md:w-[80%] bg-contain md:h-[400px]' style={{background:`url(${item.imageSource})`,backgroundSize:'cover',backgroundRepeat:'no-repeat'}}>
+              <div className='text-2xl' >
+               
+              
+              <p className='text-[15pt]' >
+                <button onClick={()=>{}} className=' block absolute animate- text-5xl mt-10 left-[35%] top-7 md:top-[40%]  md:left-[45%]  text-green-400'>
+      <i className='fad fa-play-circle' />
+      </button>
+              </p>
+              </div>
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 hidden">
                   <a href={`#item${index -1}`} className="btn btn-circle text-white">❮</a> 
                   <a href={`#item${index + 1}`} className="btn btn-circle text-white">❯</a>
                 </div>
               </div>
               ))}
-            </div>
-           
+            </div>}
+                     <div className=' py-5 dark:bg-black md:hidden' >
+             <span className='font-light text-2xl ml-4 my-5' >
+            Know what you are looking for?
+            </span>
+               <label className='w-[90%] mx-auto flex my-2 md:hidden' >
+          <i className='absolute ml-3 mt-3 fal fa-search text-gray-400' />
+            <input type='text' className='  border-[1px] searchInput border-gray-200 py-2 pl-8 w-[80%] focus:border-green-300 dark:bg-black dark:border-gray-200 focus:outline-none mx-auto' placeholder='Movies,Category,Year'/>
+            <button className='searchBtn px-[11px] bg-green-400 text-white hover:bg-green-300 transition-all w-[20%] ' >
+            <i className='fal fa-arrow-right' />
+            </button>
+            </label>
           </div>
+             <div id='genre' className='dark:bg-black dark md:my-5 '>
+              <span className='font-light text-2xl ml-4 py-5' >
+            Browse by Genres
+            </span>
+            <div className='grid grid-cols-2 grid-rows-2 gap-4 md:grid-rows-1 md:grid-cols-4 md:gap-2' >
+              <div className='bg-gradient-to-br from-red-400 to-red-800 h-[200px] w-[180px] rounded '  style={{background:`url(${action})`,backgroundSize:'cover'}}>
+              <div className='font-bold text-2xl mt-20 text-center' >
+                Action
+              </div>
+              </div>
+              <div className='bg-gradient-to-br from-sky-400 to-sky-800 h-[200px] w-[180px]  rounded ' style={{background:`url(${anime})`,backgroundSize:'cover'}}>
+              <div className='font-bold text-2xl mt-20 text-center ' >
+                Anime
+              </div>
+              </div>
+              <div className='bg-gradient-to-br from-sky-400 to-sky-800 h-[200px] w-[180px] rounded ' style={{background:`url(${comedy})`,backgroundSize:'cover'}}>
+              <div className='font-bold text-2xl mt-20 text-center' >
+                Comedy
+              </div>
+              </div>
+               <div className='bg-gradient-to-br from-orange-400 to-orange-800 h-[200px] w-[180px] rounded ' style={{background:`url(${fantasy})`,backgroundSize:'cover'}}>
+              <div className='font-bold text-2xl mt-20 text-center' >
+                Fantasy
+              </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+       
         </div>
+        
       </div>
     </React.Fragment>
     );

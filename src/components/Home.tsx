@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
+import BottomNavigation from './BottomNavigation';
 import chokolo from '../assets/images/chokolo.jpg';
 import anime from '../assets/images/anime.jpeg';
 import action from '../assets/images/action.jpeg';
@@ -122,6 +123,7 @@ export default function Home() {
   const dispatch = useCustomDispatch();
   const topMovies = useCustomSelector((state) => state.movies.topMovies);
   const [movies_remote,setMovies] = React.useState<any>([]);
+  const [movies_remote_2,setMovies2] = React.useState<any>([]);
   const [isLoading,setLoading] = React.useState(true);
     const backgroundHandler = (state:boolean,src:string|undefined,background:string) => {
     if(state) {
@@ -134,8 +136,17 @@ export default function Home() {
   }
     const [errorMessage,setErrorMessage] = React.useState<string>('Something went wrong,try again.');
     const [errorMessageState,setErrorMessageState] = React.useState<string>('hidden');
+    const [open,setOpen] = React.useState<boolean>(false);
+    const [clickedMovie,setClickedMovie] = React.useState<Movie>(movie);
+    const controlBottomNav = (navState:boolean,item:any) => {
+      setOpen(true);
+      setClickedMovie(item);
+    }
+    const random_getter = () =>{
+      let filter = ['movie/top_rated','movie/popular','/movie/latest','trending/all/day']
+    }
     React.useEffect(()=>{
-        axios.get('https://api.themoviedb.org/3/discover/movie?api_key=e008a3fcbf074898acac69fed235825a')
+    axios.get('https://api.themoviedb.org/3/trending/all/day?api_key=e008a3fcbf074898acac69fed235825a')
     .then((movies_arr:any)=>{
       //alert(JSON.stringify(movies_arr))
       if(movies_arr.data.results.length > 0){
@@ -174,6 +185,48 @@ export default function Home() {
       //alert(err.message);
       setErrorMessageState('');
       setLoading(true);
+    });
+        
+    axios.get('https://api.themoviedb.org/3/discover/tv?api_key=e008a3fcbf074898acac69fed235825a')
+    .then((movies_arr:any)=>{
+      //alert(JSON.stringify(movies_arr))
+      if(movies_arr.data.results.length > 0){
+        let results = movies_arr.data.results;
+        results.forEach((movie:any,index:number)=>{
+          if(movie.backdrop_path != null){
+            movie.image = true;
+            movie.imageSource = 'https://image.tmdb.org/t/p/original'+movie.poster_path;
+            movie.title = movie.name;
+          }
+          if(movie.adult === true){
+            movie.parentalGuide = 18;
+          } else {
+            movie.parentalGuide = 13;
+          }
+          movie.year = movie.release_date;
+          movie.description = movie.overview;
+          movie.available = true;
+          movie.availability = 'Watch Trailer';
+          movie.purchase = {amount:500}
+        })
+        
+        let selected_arr: any[] = []
+        for(let i=1; i<5; i++){
+          selected_arr.push(results[i])
+        }
+        //dispatch(addTopMovies(selected_arr));
+        setMovies2(selected_arr);
+        //alert(Object.keys(selected_arr[0]))
+        setLoading(false);
+        
+      }
+      //setMovies(movies_arr);
+      setErrorMessageState('hidden');
+    })
+    .catch((err:Error)=>{
+      //alert(err.message);
+      setErrorMessageState('');
+      setLoading(true);
     })
     },[]);
   
@@ -194,7 +247,7 @@ export default function Home() {
             Top Movies
             </span>
             <p className='text-center font-light my-3' >
-            Discover the most rated and viewed movies here
+            Catch the most trending and  movies here
             </p>
             
             {isLoading?<LoaderComponent /> :<div className='md:grid-flow-col md:grid-cols-2 md:grid-rows-2 md:w-[90%] carousel w-full mx-auto' >
@@ -204,7 +257,7 @@ export default function Home() {
                
               
               <p className='text-[15pt]' >
-                <button onClick={()=>{}} className=' block absolute animate- text-5xl mt-10 left-[35%] top-7 md:top-[40%]  md:left-[45%]  text-green-400'>
+                <button onClick={()=> controlBottomNav(true,item)} className=' block absolute animate- text-5xl mt-10 left-[35%] top-7 md:top-[40%]  md:left-[45%]  text-green-400'>
       <i className='fad fa-play-circle' />
       </button>
               </p>
@@ -216,7 +269,8 @@ export default function Home() {
               </div>
               ))}
             </div>}
-                     <div className=' py-5 dark:bg-black md:hidden' >
+        
+                     <div className=' hidden py-5 dark:bg-black md:hidden' >
              <span className='font-light text-2xl ml-4 my-5' >
             Know what you are looking for?
             </span>
@@ -228,6 +282,28 @@ export default function Home() {
             </button>
             </label>
           </div>
+              <div className='py-10 bg-white dark:bg-black' >
+              <h2 className='font-bold text-2xl ml-4' >
+                Tv Shows 
+              </h2>
+                 <p className='text-center font-light ' >
+            Catch the most trending and  movies here
+            </p>
+            <div className='carousel w-full' >
+            {[1,2,3].map((i:number,index:number)=>(
+            <div className='grid grid-rows-2 grid-cols-2 gap-x-4 carousel-item w-full relative' >
+            { movies_remote_2.map((tv:Movie,index:number)=>(
+              <div className='bg-gradient-to-br from-red-300 to-red-800 h-[230px] w-[200px] rounded' style={{background:`url(${tv.imageSource})`,backgroundSize:'200px 230px',backgroundRepeat:'no-repeat'}}>
+                     <button onClick={()=> controlBottomNav(true,tv)} className=' block absolute animate- my-[20%] mx-[20%]  text-green-400 md:my-[15%] md:mx-[13%] '>
+      <i className='fas fa-cart-plus text-2xl' />
+      <br/>
+      </button>
+              </div>
+             ))}
+            </div>
+            ))}
+            </div>
+            </div>
              <div id='genre' className='dark:bg-black dark md:my-5 '>
               <span className='font-light text-2xl ml-4 py-5' >
             Browse by Genres
@@ -260,6 +336,23 @@ export default function Home() {
        
         </div>
         
+      <BottomNavigation  open={open}  >
+        <h1 className='text-2xl' >{clickedMovie.title}</h1>
+        <div className='flex justify-around' >
+          <Link className='w-[40%]'   to={{pathname:'/player',hash:uuidv4(),search:'?movieId='+clickedMovie.id+'&cover='+clickedMovie.imageSource+'&title='+clickedMovie.title+'&movie_description='+clickedMovie.description}} ><button className='border-2 border-green-300  btn rounded-[10px] my-2 text-white font-times w-[100%] bg-green-400 hover:bg-green-300 transition-all' >
+          
+         <i className='fas fa-play' />
+          </button></Link>
+          <div className='w-[40%]' ><button className='border-[1px] border-green-400  btn rounded-[10px] my-2 text-white font-times w-[100%] text-green-400' >
+          
+         <i className='fal fa-heart' />
+          </button></div>
+        </div>
+        <h3 className='text-xl font-light text-center my-3' >Storyline </h3>
+        <p>
+        {clickedMovie.description}
+        </p>
+      </BottomNavigation>
       </div>
     </React.Fragment>
     );

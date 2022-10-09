@@ -3,4 +3,5 @@ import SignIn from './SignIn';
 import Home from './Home';
 import Player from './Player';
 import TemporaryNav from './TemporaryNav';
-export {Header,SignIn,Home, Player,TemporaryNav} 
+import Footer from './Footer';
+export {Header,SignIn,Home, Player,TemporaryNav,Footer} 

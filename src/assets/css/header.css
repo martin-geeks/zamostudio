@@ -5,6 +5,7 @@
 }
 #navBar {
   overflow-y: scroll;
+  scrollbar-width:none;
 }
 .searchInput {
   border-right:none;

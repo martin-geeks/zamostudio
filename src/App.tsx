@@ -1,6 +1,6 @@
 import React,{Suspense} from 'react';
 //import logo from './logo.svg';
-import {Header,SignIn, TemporaryNav} from './components';
+import {Header,SignIn, TemporaryNav,Footer} from './components';
 import { useCustomSelector, useCustomDispatch } from './states/hook';
 import {Routes as Switch, Route} from 'react-router-dom';
 import './assets/fontawesome-pro-5.15.1-web/css/all.css';
@@ -36,9 +36,9 @@ function App() {
   return (
     <div className="bg-white text-black dark:bg-black dark:text-white">
     <Header />
-    <div className=" md:grid md:grid-cols-4 md:gap-[none] " >
+    <div className=" md:grid md:grid-cols-4 md:gap-[none] w-[100%] " >
    <FixedSideBar />
-    <div className='md:col-span-3' >
+    <div className='md:col-span-3 h-[30vh] scroll-smooth  ' >
     <Suspense fallback={<Loader />} >
     <Switch>
       <Route path='/' element={<Home />} />
@@ -48,9 +48,10 @@ function App() {
     </Suspense>
     </div>
     <div>
-    
+     
     </div>
     </div>
+    <Footer/>
     </div>
   );
 }

@@ -11,7 +11,8 @@ export const ThemeSunIcon = () => (
   </svg>
   );
 export const ThemeMoonIcon = () => (
-  <svg className="swap-off mx-auto fill-current w-[20px] h-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>);
+  <svg className="swap-off mx-auto fill-current w-[20px] h-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+  );
 
 type HTMLElement = object|null;
 
@@ -80,7 +81,7 @@ export default function Header(){
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-heart' /><span className='mx-3'>Favorite</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-shopping-cart' /><span className='mx-3'>Cart</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-store' /><span className='mx-3'>Movies Store</span></li></Link>
-               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-box-full' /><span className='mx-3'>Zamo Box</span></li></Link>
+               <Link  to={{pathname:'/zamobox',hash:uuidv4()}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-box-full' /><span className='mx-3'>Zamo Box</span></li></Link>
                {isLogin? <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-user' /><span className='mx-3'>My Account</span></li></Link>:
                <Link  to={{pathname:'/sign-in',hash:uuidv4()}} ><li className='my-2 p-2 ring ring-green-400 text-green-400 mx-2 hover:bg-green-100 dark:hover:bg-green-100 rounded ease-in transition-all text+left'><i className='fal fa-sign-in' /><span className='mx-3'>Login or Create Account</span></li></Link>
                }

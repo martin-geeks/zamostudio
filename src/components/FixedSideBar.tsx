@@ -16,7 +16,7 @@ export default function FixedSideBar() {
   }
   const [isLogin,setLogin] = React.useState(false);
   return (
-     <div className=" bg-white dark:bg-black w-60 border-[1px] border-gray-300 md:h-full  hidden md:block fixedSideBar" >
+     <div className=" bg-white dark:bg-black w-60 border-[1px] border-gray-300 md:h-screen  hidden md:block fixedSideBar" >
         <div className='flex py-5  bg-white text-slate-500 dark:bg-black dark:text-white justify-around' >
        <span className='py-1'>
        You are in {theme=== 'dark'? 'light':'dark'} mode
@@ -39,7 +39,7 @@ export default function FixedSideBar() {
             </label>
           </div>
              <div className='my-2'>
-            <ol className='text-left text-white' >
+            <ol className='text-left text-black dark:text-white' >
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-arrow-up' /><span className='mx-3'>Top movies</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text-green-400 text+left'><i className='fad fa-thumbs-up' /><span className='mx-3'>Recommended movies</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left'><i className='fal fa-bookmark' /><span className='mx-3'>Wishlist</span></li></Link>

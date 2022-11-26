@@ -1,6 +1,10 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
+import {BsArrowBarUp, BsBookmark, BsBox, BsCart, BsHandThumbsUp, BsHeart, BsFlag, BsShop} from 'react-icons/bs';
+import {BiUser} from 'react-icons/bi';
+import {FiSettings} from 'react-icons/fi';
+import {AiOutlineQuestionCircle} from 'react-icons/ai';
 import BottomNavigation from './BottomNavigation';
 import chokolo from '../assets/images/chokolo.jpg';
 import anime from '../assets/images/anime.jpeg';
@@ -15,6 +19,14 @@ import axios from 'axios';
 import '../assets/css/home.css';
 
 import '../assets/css/header.css';
+import { AiOutlineHome } from 'react-icons/ai';
+import { Swiper, SwiperSlide } from "swiper/react";
+import {Autoplay, EffectCards, EffectFade ,Keyboard, Lazy, Mousewheel, Navigation, Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/effect-fade";
+import "swiper/css/pagination";
+
 
 type ParentalGuide = number | string;
 type Availability = 'Coming Soon'| 'Watch Now'|'Watch Trailer';
@@ -125,6 +137,7 @@ export default function Home() {
   const [movies_remote,setMovies] = React.useState<any>([]);
   const [movies_remote_2,setMovies2] = React.useState<any>([]);
   const [isLoading,setLoading] = React.useState(true);
+  const [isLogin,setLogin] = React.useState(true);
     const backgroundHandler = (state:boolean,src:string|undefined,background:string) => {
     if(state) {
       
@@ -232,128 +245,85 @@ export default function Home() {
   
   
   return (
-    <React.Fragment>
-      <div className='bg-white text-black dark:bg-black dark:text-white' >
-            <div id='' className={`alert bg-red-400 alert-error shadow-lg sm:w-[100%] text-white ${errorMessageState}`}>
-       <div>
-    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-    <span>{errorMessage}</span>
-  </div>
-</div>
+     <>
+      <div className='flex  divide-x-4 dark:divide-slate-700'>
+        <div className='hidden md:block'>
+          <div className='flex-col bg-[#fff] dark:bg-slate-700  w-60 my-2 rounded-[5px] mx-5'>
+            <ul className='w-full'>
+              <Link to={'/'}>
+                <li className='flex justify-start  w-[100%] btn btn-sm border-none normal-case hover:bg-green-400'>
+                  
+                </li>
+              </Link>
 
-        <div className='h-96 dark:text-white dark:bg-black md:w-[w-full]' >
-          <div className='text-left py-2 md:text-center ' >
-            <span className='font-bold text-2xl ml-4' >
-            Top Movies
-            </span>
-            <p className='text-center font-light my-3' >
-            Catch the most trending and  movies here
-            </p>
-            
-            {isLoading?<LoaderComponent /> :<div className='md:grid-flow-col md:grid-cols-2 md:grid-rows-2 md:w-[90%] carousel w-full mx-auto' >
-            {movies_remote.map((item:any,index:number)=> (
-              <div id={`item${index}`} className='carousel-item relative bg-gray-200 h-[200px] mx-2 w-[150px] rounded-[10px] md:rounded-[0px] md:w-[80%] bg-contain md:h-[400px]' style={{background:`url(${item.imageSource})`,backgroundSize:'cover',backgroundRepeat:'no-repeat'}}>
-              <div className='text-2xl' >
+            </ul>
+            <div className='my-2'>
+            <ol className='text-left dark:text-white' >
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'> <AiOutlineHome className='my-1'/><span className='mx-3'>Home</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsArrowBarUp className='my-1' /><span className='mx-3'>Top movies</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text-green-400 text+left flex'><BsHandThumbsUp className='my-1' /><span className='mx-3'>Recommended movies</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsBookmark className='my-1' /><span className='mx-3'>Wishlist</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsHeart className='my-1' /><span className='mx-3'>Favorite</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsCart className='my-1' /><span className='mx-3'>Cart</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsShop  className='my-1' /><span className='mx-3'>Movies Store</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsBox className='my-1' /><span className='mx-3'>Zamo Box</span></li></Link>
                
+            </ol>
+          </div>
+          </div>
+          <div className='flex-col bg-[#fff] dark:bg-slate-700  w-60 my-2 rounded-[5px] mx-5'>
+            
+            <div className='my-2'>
+            <ol className='text-left dark:text-white' >
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'> <BiUser className='my-1'/><span className='mx-3'>My Account</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><FiSettings className='my-1' /><span className='mx-3'>Settings</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><AiOutlineQuestionCircle className='my-1' /><span className='mx-3'>Help and Support</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsFlag className='my-1' /><span className='mx-3'>About</span></li></Link>
               
-              <p className='text-[15pt]' >
-                <button onClick={()=> controlBottomNav(true,item)} className=' block absolute animate- text-5xl mt-10 left-[35%] top-7 md:top-[40%]  md:left-[45%]  text-green-400'>
-      <i className='fad fa-play-circle' />
-      </button>
-              </p>
-              </div>
-                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 hidden">
-                  <a href={`#item${index -1}`} className="btn btn-circle text-white">❮</a> 
-                  <a href={`#item${index + 1}`} className="btn btn-circle text-white">❯</a>
-                </div>
-              </div>
-              ))}
-            </div>}
-        
-                     <div className=' hidden py-5 dark:bg-black md:hidden' >
-             <span className='font-light text-2xl ml-4 my-5' >
-            Know what you are looking for?
-            </span>
-               <label className='w-[90%] mx-auto flex my-2 md:hidden' >
-          <i className='absolute ml-3 mt-3 fal fa-search text-gray-400' />
-            <input type='text' className='  border-[1px] searchInput border-gray-200 py-2 pl-8 w-[80%] focus:border-green-300 dark:bg-black dark:border-gray-200 focus:outline-none mx-auto' placeholder='Movies,Category,Year'/>
-            <button className='searchBtn px-[11px] bg-green-400 text-white hover:bg-green-300 transition-all w-[20%] ' >
-            <i className='fal fa-arrow-right' />
-            </button>
-            </label>
-          </div>
-              <div className='py-10 bg-white dark:bg-black' >
-              <h2 className='font-bold text-2xl ml-4' >
-                Tv Shows 
-              </h2>
-                 <p className='text-center font-light ' >
-            Catch the most trending and  movies here
-            </p>
-            <div className='carousel w-full' >
-            {[1,2,3].map((i:number,index:number)=>(
-            <div className='grid grid-rows-2 grid-cols-2 gap-x-4 carousel-item w-full relative' >
-            { movies_remote_2.map((tv:Movie,index:number)=>(
-              <div className='bg-gradient-to-br from-red-300 to-red-800 h-[230px] w-[200px] rounded' style={{background:`url(${tv.imageSource})`,backgroundSize:'200px 230px',backgroundRepeat:'no-repeat'}}>
-                     <button onClick={()=> controlBottomNav(true,tv)} className=' block absolute animate- my-[20%] mx-[20%]  text-green-400 md:my-[15%] md:mx-[13%] '>
-      <i className='fas fa-cart-plus text-2xl' />
-      <br/>
-      </button>
-              </div>
-             ))}
-            </div>
-            ))}
-            </div>
-            </div>
-             <div id='genre' className='dark:bg-black dark md:my-5 '>
-              <span className='font-light text-2xl ml-4 py-5' >
-            Browse by Genres
-            </span>
-            <div className='grid grid-cols-2 grid-rows-2 gap-4 md:grid-rows-1 md:grid-cols-4 md:gap-2' >
-              <div className='bg-gradient-to-br from-red-400 to-red-800 h-[200px] w-[180px] rounded '  style={{background:`url(${action})`,backgroundSize:'cover'}}>
-              <div className='font-bold text-2xl mt-20 text-center' >
-                Action
-              </div>
-              </div>
-              <div className='bg-gradient-to-br from-sky-400 to-sky-800 h-[200px] w-[180px]  rounded ' style={{background:`url(${anime})`,backgroundSize:'cover'}}>
-              <div className='font-bold text-2xl mt-20 text-center ' >
-                Anime
-              </div>
-              </div>
-              <div className='bg-gradient-to-br from-sky-400 to-sky-800 h-[200px] w-[180px] rounded ' style={{background:`url(${comedy})`,backgroundSize:'cover'}}>
-              <div className='font-bold text-2xl mt-20 text-center' >
-                Comedy
-              </div>
-              </div>
-               <div className='bg-gradient-to-br from-orange-400 to-orange-800 h-[200px] w-[180px] rounded ' style={{background:`url(${fantasy})`,backgroundSize:'cover'}}>
-              <div className='font-bold text-2xl mt-20 text-center' >
-                Fantasy
-              </div>
-              </div>
-            </div>
+            </ol>
           </div>
           </div>
-
-       
         </div>
-        
-      <BottomNavigation  open={open}  >
-        <h1 className='text-2xl' >{clickedMovie.title}</h1>
-        <div className='flex justify-around' >
-          <Link className='w-[40%]'   to={{pathname:'/player',hash:uuidv4(),search:'?movieId='+clickedMovie.id+'&cover='+clickedMovie.imageSource+'&title='+clickedMovie.title+'&movie_description='+clickedMovie.description}} ><button className='border-2 border-green-300  btn rounded-[10px] my-2 text-white font-times w-[100%] bg-green-400 hover:bg-green-300 transition-all' >
-          
-         <i className='fas fa-play' />
-          </button></Link>
-          <div className='w-[40%]' ><button className='border-[1px] border-green-400  btn rounded-[10px] my-2 text-white font-times w-[100%] text-green-400' >
-          
-         <i className='fal fa-heart' />
-          </button></div>
+        {/*Column 1*/}
+        <div className='w-[70%]'>
+          <div className='flex flex-col'>
+            <Swiper
+              direction='vertical'
+              slidesPerView={1}
+		          spaceBetween={0}
+		          effect='fade'
+		          fadeEffect={{
+			          crossFade:true,
+		          }}
+		          loop={true}
+              modules={[Navigation,Keyboard,Pagination,Autoplay,EffectFade]}
+              style={{height:'500px',width:'80%',borderRadius:'10px',margin:'30px auto'}}
+            >
+              <SwiperSlide
+                className='w-full bg-blue-500'
+              >
+                1
+              </SwiperSlide>
+              <SwiperSlide
+              className='w-full bg-yellow-500'
+              >
+                2
+              </SwiperSlide>
+              <SwiperSlide 
+               className='w-full bg-green-500'
+              >
+                3
+              </SwiperSlide>
+            </Swiper>
+          </div>
         </div>
-        <h3 className='text-xl font-light text-center my-3' >Storyline </h3>
-        <p>
-        {clickedMovie.description}
-        </p>
-      </BottomNavigation>
+        {/*Column 2*/}
+        <div className='w-60 hidden md:block'>
+          <div className='flex flex-col'>
+            
+          </div>
+        </div>
       </div>
-    </React.Fragment>
+     </>
     );
 }

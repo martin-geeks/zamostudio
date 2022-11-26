@@ -10,6 +10,7 @@ import './main.css';
 import { BsMoonFill, BsSearch, BsSunFill} from 'react-icons/bs';
 import { MdToggleOn,MdToggleOff,MdClose} from 'react-icons/md';
 const SignIn = lazy(()=> import('./components/SignIn'));
+const Home = lazy(()=> import('./components/Home'));
 
 
 const Player = React.lazy( ()=> import('./components/Player'));
@@ -48,7 +49,7 @@ function App() {
   }
 
   return (
-    <div className="bg-white text-black dark:bg-slate-900 dark:text-white">
+    <div className="text-black dark:bg-slate-900 dark:text-white">
     <div className='flex justify-between'>
        <div className='flex justify-start'>
       <h1 className="text-green-400 font-bold  w-60 ml-2 flex  ">
@@ -56,7 +57,7 @@ function App() {
       </h1>
      
         <form className='ml-10 hidden md:block'>
-          <label className='block flex my-3'><input className='border-2 w-60 border-green-400 py-2 outline-none hover:border-green-400 dark:bg-slate-700' /><button type='button' className=' px-4 rounded-none  bg-green-400 border-none text-[#fff] hover:bg-green-500'><BsSearch className='hover:p-[1px]'/></button> </label>
+          <label className='block flex my-3'><input className='border-2 w-60 border-green-400 py-1 outline-none hover:border-green-400 dark:bg-slate-700' /><button type='button' className=' px-4 rounded-none  bg-green-400 border-none text-[#fff] hover:bg-green-500'><BsSearch className='hover:p-[1px]'/></button> </label>
         </form>
       </div>
       <div className='hidden md:flex'>
@@ -102,12 +103,13 @@ function App() {
       </div>
     </div>
 
-    <div className='w-full bg-gray-100 dark:bg-slate-800'>
+    <div className='h-[100vh] w-full bg-gray-100 dark:bg-slate-800'>
     <Suspense fallback={<Loader />} >
     <Switch>
-      <Route path='/' element={<SignIn />}/>
+      <Route path='/ks' element={<SignIn />}/>
       <Route path='/signin' element={<SignIn />}/>
       <Route path='/load' element={<Loader />}/>
+      <Route path='/' element={<Home />}/>
     </Switch>
     </Suspense>
    </div>

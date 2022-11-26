@@ -7,16 +7,16 @@ export default function SignIn(){
     
     axios.post('/login',{username:'martintembo1',password:'543027'})
     .then((response:any)=>{
-      alert(JSON.stringify(response.data));
+      console.log(JSON.stringify(response.data));
     })
     .catch((err:Error)=>{
-      alert(err.message);
+      console.log(err.message);
     });
     
   }
   
   return (
-    <section className="bg-white dark:bg-black">
+    <section className="">
     <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
         <form id='loginForm' className="w-full max-w-md">
             <h1 className="text-3xl font-semibold text-gray-800 capitalize dark:text-white">sign In</h1>
@@ -28,7 +28,7 @@ export default function SignIn(){
                     </svg>
                 </span>
 
-                <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
+                <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-green-400 dark:focus:border-green-300 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
             </div>
 
             <div className="relative flex items-center mt-4">
@@ -38,11 +38,11 @@ export default function SignIn(){
                     </svg>
                 </span>
 
-                <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
+                <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-green-400 dark:focus:border-green-300 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
             </div>
 
             <div className="mt-6">
-                <button onClick={signIn}  type='button' className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                <button onClick={signIn}  type='button' className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-bluef-500 bg-green-400 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50">
                     Sign in
                 </button>
 
@@ -60,7 +60,7 @@ export default function SignIn(){
                 </a>
 
                 <div className="mt-6 text-center ">
-                    <a href="/" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
+                    <a href="/" className="text-sm text-green-500 hover:underline dark:text-green-400">
                         Don’t have an account yet? Sign up
                     </a>
                 </div>

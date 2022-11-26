@@ -3,8 +3,10 @@ import {toggleTheme as theme} from '../states/theme';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import {useCustomSelector,useCustomDispatch} from '../states/hook';
-
-import '../assets/css/header.css';
+import {BsSearch} from 'react-icons/bs';
+import { MdOutlineAccountCircle} from 'react-icons/md';
+import {AiOutlineMenu} from 'react-icons/ai';
+import {HiCog} from 'react-icons/hi';
 
 export const ThemeSunIcon = () => (
   <svg className="swap-on mx-auto fill-current w-[20px] h-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>
@@ -31,22 +33,30 @@ export default function Header(){
   }
   return (
     <React.Fragment>
-      <header className='t-0 w-[100%] scroll-smooth' >
-       <div className='relative z-40 w-[100%] header md:border-[1px] border-black-600 dark:border-green-200 dark:bg-black py-5 flex justify-between' >
+      <header className='t-0  scroll-smooth' >
+       <div className='' >
        <div className='ml-5 text-left md:text-left text-2xl py-2 dark:text-white font-bold' >
         <i className='fas fa-popcorn text-green-500' />
         <i className='fas ' /> <Link to={{pathname:'/'}}>ZamoStudio</Link>
        </div>
+       <div>
        
-       <div className='mx-1 ' >
-       
-          <button className='mr-2 text-black dark:text-white' >
-          <i className='fas fa-search' />
+        <form>
+          <input type='text' className='p-1 rounded bg-gray-200 w-[200px] h-[30px] border-[1px] border-black-600 dark:border-green-200 dark:bg-black my-2 outline-none border-none' placeholder='Search' />
+          <button className='mx-2 text-black dark:text-white bg-green-400 btn btn-sm border-none text-white' >
+          <BsSearch />
+          </button>
+          </form>
+          <button className='mx-2 text-black dark:text-white bg-green-400 btn btn-sm border-none text-white' >
+          <MdOutlineAccountCircle />
+          </button>
+          <button className='mx-2 text-black dark:text-white bg-green-400 btn btn-sm border-none text-white' >
+          <HiCog />
           </button>
          <button onClick={toggleNav}  className="text-dark dark:text-white  p-1 focus:ring hover:bg-black-400 text-2xl focus:outline-none focus:ring-sky-200 h-10 w-10 rounded-full md:hidden" >
-            <i className='fal fa-bars' />
+            <AiOutlineMenu/>
          </button>
-    </div>
+        </div>
        </div>
        <div  >
        

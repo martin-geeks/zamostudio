@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
-import {BsArrowBarUp, BsBookmark, BsBox, BsCart, BsHandThumbsUp, BsHeart, BsFlag, BsShop} from 'react-icons/bs';
+import {BsArrowBarUp, BsBookmark, BsBox, BsCart, BsHandThumbsUpFill, BsHeart, BsFlag, BsShop,BsPlayCircleFill} from 'react-icons/bs';
 import {BiUser} from 'react-icons/bi';
 import {FiSettings} from 'react-icons/fi';
 import {AiOutlineQuestionCircle} from 'react-icons/ai';
@@ -26,7 +26,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-
+import "./swiper.css";
 
 type ParentalGuide = number | string;
 type Availability = 'Coming Soon'| 'Watch Now'|'Watch Trailer';
@@ -200,7 +200,7 @@ export default function Home() {
       setLoading(true);
     });
         
-    axios.get('https://api.themoviedb.org/3/discover/tv?api_key=e008a3fcbf074898acac69fed235825a')
+    axios.get('https://api.themoviedb.org/3/discover/movie?api_key=e008a3fcbf074898acac69fed235825a')
     .then((movies_arr:any)=>{
       //alert(JSON.stringify(movies_arr))
       if(movies_arr.data.results.length > 0){
@@ -224,7 +224,7 @@ export default function Home() {
         })
         
         let selected_arr: any[] = []
-        for(let i=1; i<5; i++){
+        for(let i=1; i<10; i++){
           selected_arr.push(results[i])
         }
         //dispatch(addTopMovies(selected_arr));
@@ -242,7 +242,9 @@ export default function Home() {
       setLoading(true);
     })
     },[]);
-  
+  const seeAll = () =>{
+    console.log(movies_remote_2)
+  }
   
   return (
      <>
@@ -261,7 +263,7 @@ export default function Home() {
             <ol className='text-left dark:text-white' >
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'> <AiOutlineHome className='my-1'/><span className='mx-3'>Home</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsArrowBarUp className='my-1' /><span className='mx-3'>Top movies</span></li></Link>
-               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text-green-400 text+left flex'><BsHandThumbsUp className='my-1' /><span className='mx-3'>Recommended movies</span></li></Link>
+               <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text-green-400 text+left flex'><BsHandThumbsUpFill className='my-1' /><span className='mx-3'>Recommended movies</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsBookmark className='my-1' /><span className='mx-3'>Wishlist</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsHeart className='my-1' /><span className='mx-3'>Favorite</span></li></Link>
                <Link  to={{pathname:'#'}} ><li className='p-2 mx-2 hover:bg-gray-100 dark:hover:bg-green-400 rounded transition-all text+left flex'><BsCart className='my-1' /><span className='mx-3'>Cart</span></li></Link>
@@ -285,36 +287,125 @@ export default function Home() {
           </div>
         </div>
         {/*Column 1*/}
-        <div className='w-[70%]'>
+        <div className='w-full md:w-[70%]'>
           <div className='flex flex-col'>
+          <div className=' border-b dark:border-slate-600 flex overflow-scroll scrollbar-hide justify-between'>
+            <button
+              className='btn btn-sm border-none normal-case rounded text-green-400 my-2 mx-2'
+            >
+            Recent
+            </button>
+             <button
+              className='btn btn-sm border-none normal-case rounded hover:text-green-400 my-2 mx-2'
+            >
+            Top rated
+            </button>
+             <button
+              className='btn btn-sm border-none normal-case rounded hover:text-green-400 my-2 mx-2'
+            >
+            Last Year
+            </button>
+            <div className='dropdown dropdown-open dropdown-bottom  z-[20]'>
+             <label
+              tabIndex={0}
+              className='btn btn-sm border-none normal-case rounded hover:text-green-400 my-2 mx-2'
+            >
+            category 
+            </label>
+            <ul tabIndex={0} className='dropdown-content menu dark:bg-slate-900 w-40 z-[20]'>
+              <li>Action</li>
+            </ul>
+            </div>
+          </div>
             <Swiper
-              direction='vertical'
+              direction='horizontal'
               slidesPerView={1}
 		          spaceBetween={0}
 		          effect='fade'
 		          fadeEffect={{
 			          crossFade:true,
 		          }}
+		          navigation={true}
 		          loop={true}
               modules={[Navigation,Keyboard,Pagination,Autoplay,EffectFade]}
-              style={{height:'500px',width:'80%',borderRadius:'10px',margin:'30px auto'}}
+              
             >
+            {isLoading?
               <SwiperSlide
-                className='w-full bg-blue-500'
+                className='bg-white dark:bg-slate-800 '
               >
-                1
+                <div 
+                className='w-[70%] mx-auto py-5 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-500  rounded animate-pulse my-2'
+                >
+                
+                  
+                </div>
+                <div 
+                className='w-[100%] mx-auto py-5 bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-600 dark:from-gray-600 dark:to-gray-500 rounded-none animate-pulse my-2 h-[250px]'
+                
+                >
+                  
+                </div>
+                  <div 
+                className='w-[70%] mx-auto py-3 bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-600 dark:from-gray-600 dark:to-gray-500 rounded-none animate-pulse my-1 float-left'
+                ></div>
+                 <div 
+                className='w-[50%] mx-auto py-3 bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-600 dark:from-gray-600 dark:to-gray-500 rounded-none animate-pulse my-1 float-left'
+                ></div>
+                 <div 
+                className='w-[70%] mx-auto py-3 bg-gradient-to-b from-gray-200 to-gray-300 dark:from-gray-600 dark:from-gray-600 dark:to-gray-500 rounded-none animate-pulse my-1 float-left'
+                ></div>
               </SwiperSlide>
-              <SwiperSlide
-              className='w-full bg-yellow-500'
+              :
+              
+              movies_remote_2.map((movs:any)=> (
+                    <SwiperSlide
+                className='bg-white dark:bg-slate-800 '
               >
-                2
+                <div 
+                className='w-[70%] mx-auto py-2 dark:bg-slate-700  rounded my-2 text-center font-bold'
+                >
+                
+                  {movs.title? movs.title:movs.original_title}
+                </div>
+                <div 
+                className='w-[100%] mx-auto py-5 rounded-none my-2 h-[600px]'
+                style={{backgroundImage:`url(${movs.imageSource})`,backgroundSize:'100% 100%'}}
+                >
+                  <BsPlayCircleFill className='text-green-400 block mx-auto my-[60%] text-[3em] btn btn-circle' />
+                </div>
+                  <div 
+                className='w-[90%] mx-auto py-3 bg- my-1 mx-auto flex justify-between text-white'
+                >
+                <button className='btn btn-sm border-none bg-sky-600 hover:bg-sky-600 rounded mx-1'>PG: {movs.parentalGuide}</button>
+                <button className='btn btn-sm border-none bg-orange-500 hover:bg-orange-600 rounded normal-case'>Language: {movs.original_language}</button>
+                <button className='btn btn-sm border-none bg-slate-600 hover:bg-slate-600 mx-1 rounded'>
+                <BsHandThumbsUpFill className='text-green-400 mx-1' />: {movs.vote_count}</button>
+                <button onClick={seeAll} className='btn btn-sm border-none bg-purple-800 hover:bg-red-600 rounded normal-case mx-1'>Year: {movs.first_air_date? movs.first_air_date : movs.year}</button>
+                </div>
+                 <div 
+                className='w-[100%] mx-auto py-3 dark:bg-gray-700 rounded-none my-1 text-center text-sm'
+                >
+                {movs.description}
+                </div>
+                <div className='flex justify-around'>
+                 <div
+                className='w-[70%] bg-green-400 py-3 dark:bg-gray-700 my-1 text-white text-center'
+                >
+                Availability: {movs.availability}
+                </div>
+                <button className='btn border-none dark:bg-slate-700 dark:hover:bg-slate-700 normal-case '>
+                Related
+                </button>
+                </div>
               </SwiperSlide>
-              <SwiperSlide 
-               className='w-full bg-green-500'
-              >
-                3
-              </SwiperSlide>
-            </Swiper>
+                ))
+              
+            } 
+            <button className=''>
+              Next
+            </button>
+           </Swiper>
           </div>
         </div>
         {/*Column 2*/}

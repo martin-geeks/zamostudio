@@ -1,0 +1,63 @@
+/*
+.swiper-slide {
+  
+  /* Center slide text vertically 
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+} */
+.swiper-pagination-bullet-active {
+  color:#f6f6f6;
+  background-color: rgb(103, 235, 202)3)
+}
+.swiper-pagination-bullet {
+  color:#f6f6f6;
+  background-color: #eaf7f4fb;
+}
+@media (max-width: 640px) { 
+  .swiper {
+   width: 100%;
+  }
+  .swiper-slide {
+    height: content;
+    width:100%;
+    border:;
+  }
+}
+
+@media (min-width: 768px) { 
+  .swiper {
+    width:100%;
+    height:100%;
+    background-color:hsl(113, 49%, 27%);
+  }
+  .swiper-slide {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .swiper {
+    width: 100%;
+    margin: 10% 60px;
+    height:500px;
+    background-color:#f6f6f6;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+    padding: 10px;
+  }
+  .swiper-slide {
+    width: 100%;
+    margin: ;
+    
+  }
+ }

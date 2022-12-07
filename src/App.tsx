@@ -88,7 +88,7 @@ function App() {
         </button>
         
       </div>
-      <div ref={navBar} data-aos='slide-right' className='fixed hidden right-0 bg-white dark:bg-slate-900 w-[70%] border-l border-slate-800 md:h-full md:hidden z-[20]'>
+      <div ref={navBar} data-aos='slide-right' className='fixed hidden right-0 bg-white dark:bg-slate-900 w-[70%]  border-slate-800 md:h-full md:hidden z-[20]'>
         <div className='flex justify-between'>
           <button className='btn-sm my-4 flex md:hidden text-xl'>
         <BsSunFill className='my-3 text-sm' />

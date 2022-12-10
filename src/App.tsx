@@ -1,5 +1,6 @@
 import React,{Suspense,lazy,useState, useEffect,useRef} from 'react';
 //import logo from './logo.svg';
+import {v4 } from 'uuid';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { useCustomSelector, useCustomDispatch } from './states/hook';
@@ -52,9 +53,9 @@ function App() {
     <div className="text-black dark:bg-slate-900 dark:text-white">
     <div className='flex justify-between'>
        <div className='flex justify-start'>
-      <h1 className="text-green-400 font-bold  w-60 ml-2 flex  ">
+     <Link to={{pathname:'/',hash:v4()}}><h1 className="text-green-400 font-bold  w-60 ml-2 flex  ">
         <span className='text-white bg-green-400 inline-block text-[17pt] my-4 rounded w-[40px] text-center'>Z</span><span className='mt-3 text-[20pt] text-black mx-2 dark:text-[#fff]'>zamostudio.tv</span>
-      </h1>
+      </h1></Link>
      
         <form className='ml-10 hidden md:block'>
           <label className='block flex my-3'><input className='border-2 w-60 border-green-400 py-1 outline-none hover:border-green-400 dark:bg-slate-700' /><button type='button' className=' px-4 rounded-none  bg-green-400 border-none text-[#fff] hover:bg-green-500'><BsSearch className='hover:p-[1px]'/></button> </label>
@@ -67,7 +68,7 @@ function App() {
           {theme !== 'light' ? <MdToggleOn data-aos='fade-in' className='text-4xl text-green-400 hover:text-green-500' onClick={toggleTheme} /> : <MdToggleOff data-aos='fade-out' className='text-4xl text-green-400 hover:text-green-500' onClick={toggleTheme} />}
         <BsMoonFill className='my-3 text-sm'/>
         </button>
-        <Link to='/signin' className='btn btn-sm border-none rounded-[5px] my-4 normal-case text-green-400 mx-2'>
+        <Link to='/sign-in' className='btn btn-sm border-none rounded-[5px] my-4 normal-case text-green-400 mx-2'>
           Sign In
         </Link>
 
@@ -107,7 +108,7 @@ function App() {
     <Suspense fallback={<Loader />} >
     <Switch>
       <Route path='/ks' element={<SignIn />}/>
-      <Route path='/signin' element={<SignIn />}/>
+      <Route path='/sign-in' element={<SignIn />}/>
       <Route path='/load' element={<Loader />}/>
       <Route path='/' element={<Home />}/>
     </Switch>

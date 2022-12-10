@@ -159,6 +159,7 @@ export default function Home() {
       let filter = ['movie/top_rated','movie/popular','/movie/latest','trending/all/day']
     }
     React.useEffect(()=>{
+      
     axios.get('https://api.themoviedb.org/3/trending/all/day?api_key=e008a3fcbf074898acac69fed235825a')
     .then((movies_arr:any)=>{
       //alert(JSON.stringify(movies_arr))
@@ -241,14 +242,20 @@ export default function Home() {
       setErrorMessageState('');
       setLoading(true);
     })
+    
     },[]);
   const seeAll = () =>{
     console.log(movies_remote_2)
   }
-  
+  const setTitle = () => {
+    if(document.title === 'ZamoStudio') {
+      document.title += ' | Catch latest movies and series';
+    }
+  }
+  setTitle();
   return (
      <>
-      <div className='flex  divide-x-4 dark:divide-slate-700'>
+      <div className='flex  md:divide-x-4 dark:divide-slate-700'>
         <div className='hidden md:block'>
           <div className='flex-col bg-[#fff] dark:bg-slate-700  w-60 my-2 rounded-[5px] mx-5'>
             <ul className='w-full'>
@@ -287,7 +294,7 @@ export default function Home() {
           </div>
         </div>
         {/*Column 1*/}
-        <div className='w-full md:w-[70%]'>
+        <div className='w-full '>
           <div className='flex flex-col'>
           <div className=' border-b dark:border-slate-600 flex overflow-scroll scrollbar-hide justify-between'>
             <button
@@ -317,6 +324,7 @@ export default function Home() {
             </ul>
             </div>
           </div>
+          <div className='md:hidden'>
             <Swiper
               direction='horizontal'
               slidesPerView={1}
@@ -369,13 +377,13 @@ export default function Home() {
                   {movs.title? movs.title:movs.original_title}
                 </div>
                 <div 
-                className='w-[100%] mx-auto py-5 rounded-none my-2 h-[600px]'
+                className='w-[70%] mx-auto py-5 rounded my-2 h-[400px]'
                 style={{backgroundImage:`url(${movs.imageSource})`,backgroundSize:'100% 100%'}}
                 >
                   <BsPlayCircleFill className='text-green-400 block mx-auto my-[60%] text-[3em] btn btn-circle' />
                 </div>
                   <div 
-                className='w-[90%] mx-auto py-3 bg- my-1 mx-auto flex justify-between text-white'
+                className='w-[90%] my-1 flex justify-start text-white'
                 >
                 <button className='btn btn-sm border-none bg-sky-600 hover:bg-sky-600 rounded mx-1'>PG: {movs.parentalGuide}</button>
                 <button className='btn btn-sm border-none bg-orange-500 hover:bg-orange-600 rounded normal-case'>Language: {movs.original_language}</button>
@@ -402,18 +410,29 @@ export default function Home() {
                 ))
               
             } 
-            <button className=''>
-              Next
-            </button>
+            
            </Swiper>
+           </div>
+           
+          </div>
+          <div className=' hidden md:grid grid-rows-auto grid-cols-4 gap-3  w-full overflow-scroll my-2 mx-2 '>
+            {movies_remote_2.map((m:any,index:number)=> {
+              return (
+              <div key={index} className='card bg-gray-200' >
+                {index}
+                <figure>
+                  <img src={m.imageSource} className='h-[250px] w-60 ' />
+                </figure>
+                <div className='card-body' >
+                  <h1 className='card-title'>{m.title}</h1>
+                </div>
+              </div>
+              );
+            })}
           </div>
         </div>
         {/*Column 2*/}
-        <div className='w-60 hidden md:block'>
-          <div className='flex flex-col'>
-            
-          </div>
-        </div>
+     
       </div>
      </>
     );
